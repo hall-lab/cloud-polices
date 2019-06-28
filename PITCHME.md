@@ -42,6 +42,20 @@ Defaults ACLs Roles:
 
 ---
 
+# Labels
+
+Labels will be used to track ownership, and for calculating costs of projects and pielines.
+
+---
+
+## Required Lables
+
+These labels are required, but others may be added.
+
+* person - the user name of the primary contact for the bucket
+* project - the general project that the bucket is being used for
+* pipeline - software pipeline that is ancipated to be used
+
 ---
 
 # FIN

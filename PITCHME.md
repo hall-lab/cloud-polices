@@ -4,31 +4,21 @@
 
 # Access Control
 
-Buckets should preferrably use IAM (Identity and Access Management) via Google groups and service accounts for ownership/access instead of individual owners and access control lists (ACLs). IAM is applied at the bucket level, ACLs can be applied atthe object level. Access is only needed from one of these ways to have that permission on an object/bucket, leading to confusing permssions.
+---
+
+## Identity Access Management (IAM)
+
+Cloud IAM allows you to control who has access to the resources in your Google Cloud Platform project. Resources include Cloud Storage buckets and objects stored within buckets, as well as other GCP entities such as Compute Engine instances.
+
+## Access Control Lists (ACL)
+An ACL is a mechanism you can use to define who has access to your buckets and objects, as well as what level of access they have. In Cloud Storage, you apply ACLs to individual buckets and objects.
 
 ---
 
-## ACLs
+## IAM Policies
 
-Still exist, but we will limit their scope to project owners.
-
-Defaults ACLs Roles:
-* OWNERS
-** project-owners
-** project-editors
-* READER
-** project-viewers
-
-We will remove the all but the OWNER=project-owners ACL.
-
-## IAM
-
-
----
-
-### IAM Defaults
-
----
+* Buckets should use primarily IAM for access management
+* Google groups and service accounts should be used for ownership/access instead of individual owners and ACLs
 
 ### IAM Storage Access Roles
 
@@ -39,7 +29,18 @@ We will remove the all but the OWNER=project-owners ACL.
 
 ---
 
-### Our IAM Settings
+## ACLs Policy
+
+Per our policy, we want to limit the use of ACLs. We will still leave one ACl on buckets, the OWNER=project-owners role.
+
+Defaults ACLs Roles:
+* OWNERS
+ * project-owners [keep]
+ * project-editors [remove]
+* READER
+ * project-viewers [remove]
+
+---
 
 ---
 

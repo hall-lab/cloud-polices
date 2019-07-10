@@ -10,6 +10,8 @@
 
 Cloud IAM allows you to control who has access to the resources in your Google Cloud Platform project. Resources include Cloud Storage buckets and objects stored within buckets, as well as other GCP entities such as Compute Engine instances.
 
+---
+
 ## Access Control Lists (ACL)
 An ACL is a mechanism you can use to define who has access to your buckets and objects, as well as what level of access they have. In Cloud Storage, you apply ACLs to individual buckets and objects.
 
@@ -19,6 +21,8 @@ An ACL is a mechanism you can use to define who has access to your buckets and o
 
 * Buckets should use primarily IAM for access management
 * Google groups and service accounts should be used for ownership/access instead of individual owners and ACLs
+
+---
 
 ### IAM Storage Access Roles
 

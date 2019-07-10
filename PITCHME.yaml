@@ -5,8 +5,8 @@ layout : top
 logo : assets/images/mig.png
 theme            : template
 theme-background : [ "#FFF" ]
-theme-headline   : [ "Raleway", "#00b300", "none" ]
-theme-byline     : [ "Raleway", "#111111", "none" ]
+theme-headline   : [ "Raleway", "#008000", "none" ]
+theme-byline     : [ "Raleway", "#00b300", "none" ]
 theme-text       : [ "Ubuntu", "#1C1C1C", "none" ]
 theme-links      : [ "#5289F7", "#5254F7" ]
 theme-code       : [ "Source Code Pro" ]

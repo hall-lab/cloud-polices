@@ -62,4 +62,10 @@ These labels are required, but others may be added.
 
 ---
 
+# Scripts
+
+Helper scripts are available for making buckets, adding labels, and auditing.
+
+---
+
 # FIN

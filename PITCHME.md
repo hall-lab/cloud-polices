@@ -64,7 +64,7 @@ These labels are required, but others may be added.
 
 # Scripts
 
-Helper scripts are available for making buckets, adding labels, and auditing.
+Helper scripts are available for making buckets, adding labels, and auditing. These will be available in a docker image, and from a github repo.
 
 ---
 

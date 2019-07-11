@@ -6,18 +6,20 @@
 
 ---
 
+## Access Control Methods
+
+* IAM
+* ACLs
+
+---
+
 ## Identity Access Management (IAM)
 
 Cloud IAM allows you to control who has access to the resources in your Google Cloud Platform project. Resources include Cloud Storage buckets and objects stored within buckets, as well as other GCP entities such as Compute Engine instances.
 
 ---
 
-## Access Control Lists (ACL)
-An ACL is a mechanism you can use to define who has access to your buckets and objects, as well as what level of access they have. In Cloud Storage, you apply ACLs to individual buckets and objects.
-
----
-
-## IAM Policies
+### IAM Policies
 
 * Buckets should use primarily IAM for access management
 * Google groups and service accounts should be used for ownership/access instead of individual owners and ACLs
@@ -33,7 +35,12 @@ An ACL is a mechanism you can use to define who has access to your buckets and o
 
 ---
 
-## ACLs Policy
+## Access Control Lists (ACL)
+An ACL is a mechanism you can use to define who has access to your buckets and objects, as well as what level of access they have. In Cloud Storage, you apply ACLs to individual buckets and objects.
+
+---
+
+### ACLs Policy
 
 Per our policy, we want to limit the use of ACLs. We will still leave one ACL on buckets, the OWNER=project-owners role.
 
@@ -52,7 +59,7 @@ Labels will be used to track ownership, and for calculating costs of projects an
 
 ---
 
-## Required Labels
+### Required Labels
 
 These labels are required, but others may be added.
 
@@ -62,9 +69,22 @@ These labels are required, but others may be added.
 
 ---
 
+# README
+
+A README file in the top level of the bucket provides additional notes.
+
+---
+
+### README Spec
+
+* what should be included?
+* what should the file name be?
+
+---
+
 # Scripts
 
-Helper scripts are available for making buckets, adding labels, and auditing. These will be available in a docker image, and from a github repo.
+Helper scripts will be available via docker image and github repo for making buckets, adding labels, and auditing.
 
 ---
 

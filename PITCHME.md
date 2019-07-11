@@ -35,7 +35,7 @@ An ACL is a mechanism you can use to define who has access to your buckets and o
 
 ## ACLs Policy
 
-Per our policy, we want to limit the use of ACLs. We will still leave one ACl on buckets, the OWNER=project-owners role.
+Per our policy, we want to limit the use of ACLs. We will still leave one ACL on buckets, the OWNER=project-owners role.
 
 Defaults ACLs Roles:
 * OWNERS
@@ -48,17 +48,17 @@ Defaults ACLs Roles:
 
 # Labels
 
-Labels will be used to track ownership, and for calculating costs of projects and pielines.
+Labels will be used to track ownership, and for calculating costs of projects and pipelines.
 
 ---
 
-## Required Lables
+## Required Labels
 
 These labels are required, but others may be added.
 
 * person - the user name of the primary contact for the bucket
-* project - the general project that the bucket is being used for
-* pipeline - software pipeline that is ancipated to be used
+* project - the general project that the bucket is being used
+* pipeline - software pipeline that is anticipated to be used
 
 ---
 

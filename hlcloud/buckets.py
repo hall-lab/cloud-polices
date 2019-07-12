@@ -13,13 +13,18 @@ def make_bucket(url, service_account=None, group=None, mbopts=None):
     cmd = ['gsutil', 'mb', url]
     if mbopts:
         cmd += mbopts
+    sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
     subprocess.check_call(cmd)
 
     try:
-        sys.stderr.write("Setting defacl...\n")
-        subprocess.check_call(['gsutil', 'defacl', 'set', 'url-owner-full-control', url])
-        sys.stderr.write("Setting acl...\n")
-        subprocess.check_call(['gsutil', 'acl', 'set', 'private', url])
+        cmd = [ 'gsutil', 'defacl', 'set', 'url-owner-full-control', url ]
+        sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
+        subprocess.check_call(cmd)
+
+        cmd = [ 'gsutil', 'acl', 'set', 'private', url ]
+        sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
+        subprocess.check_call(cmd)
+
         cmd = [ "gsutil", "iam", "ch" ]
         if service_account:
             cmd += [ "serviceAccount:{}:storage.objectAdmin".format(service_account) ]
@@ -27,8 +32,12 @@ def make_bucket(url, service_account=None, group=None, mbopts=None):
             cmd += [ "group:{}:storage.objectAdmin".format(group) ]
         sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
         subprocess.check_call(cmd)
+
     except CalledProcessError:
         sys.stderr.write("ERROR: Setting IAM/ACLs on bucket failed. Attempting to remove bucket.\n")
         subprocess.check_call(['gsutil', 'rb', url])
         raise
-    sys.stderr.write("Make bucket...SUCCESS")    
+
+    sys.stderr.write("Make bucket...SUCCESS")
+
+#-- make_bucket

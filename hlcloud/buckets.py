@@ -4,7 +4,7 @@ from subprocess import CalledProcessError
 def make_bucket(url, service_account=None, group=None, mbopts=None):
 
     if not url.startswith("gs://"):
-        raise Exception("ERROR: Invalid bucket URL: gs:/test")
+        raise Exception("ERROR: Invalid google bucket URL: {}".format(url))
 
     if service_account is None and group is None:
         raise Exception('ERROR: Need to provide service account or group (or both) to make bucket!')

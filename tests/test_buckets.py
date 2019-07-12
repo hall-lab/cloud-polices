@@ -8,7 +8,7 @@ from hlcloud import buckets
 class BucketsTest(unittest.TestCase):
 
     def test1_make_bucket_fails(self):
-        with self.assertRaisesRegex(Exception, "ERROR: Invalid bucket URL: gs:/test"):
+        with self.assertRaisesRegex(Exception, "ERROR: Invalid google bucket URL: gs:/test"):
             buckets.make_bucket(url="gs:/test", service_account="SA", group="G")
         with self.assertRaisesRegex(Exception, "ERROR: Need to provide service account or group \(or both\) to make bucket!"):
             buckets.make_bucket(url="gs://test")

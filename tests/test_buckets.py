@@ -20,8 +20,10 @@ class BucketsTest(unittest.TestCase):
         
         test_patch.return_value = 1
         buckets.make_bucket(url="gs://test", service_account="SA", group="G")
-        expected_err = "\n".join(["Make bucket: gs://test", "Setting defacl...", "Setting acl...",
-            "Setting iam...", "Setting service account: SA", "Setting group: G", "Make bucket...SUCCESS"])
+        expected_err = "\n".join([
+            "Make bucket: gs://test", "Setting defacl...", "Setting acl...",
+            "Running: gsutil iam ch serviceAccount:SA:storage.objectAdmin group:G:storage.objectAdmin",
+            "Make bucket...SUCCESS"])
         self.assertEqual(err.getvalue(), expected_err)
         sys.stderr = sys.__stderr__
 

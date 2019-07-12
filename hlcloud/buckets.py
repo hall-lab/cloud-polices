@@ -20,15 +20,15 @@ def make_bucket(url, service_account=None, group=None, mbopts=None):
         subprocess.check_call(['gsutil', 'defacl', 'set', 'url-owner-full-control', url])
         sys.stderr.write("Setting acl...\n")
         subprocess.check_call(['gsutil', 'acl', 'set', 'private', url])
-        sys.stderr.write("Setting iam...\n")
+        cmd = [ "gsutil", "iam", "ch" ]
         if service_account:
-            sys.stderr.write("Setting service account: {}\n".format(service_account))
-            subprocess.check_call(['gsutil', 'iam', 'set', ..., url]) # FIXME:
+            cmd += [ "serviceAccount:{}:storage.objectAdmin".format(service_account) ]
         if group:
-            sys.stderr.write("Setting group: {}\n".format(group))
-            subprocess.check_call(['gsutil', 'iam', 'set', ..., url]) # FIXME:
+            cmd += [ "group:{}:storage.objectAdmin".format(group) ]
+        sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
+        subprocess.check_call(cmd)
     except CalledProcessError:
-        sys.stderr.write("ERROR: Setting permission on bucket failed. Removing bucket.\n")
+        sys.stderr.write("ERROR: Setting IAM/ACLs on bucket failed. Attempting to remove bucket.\n")
         subprocess.check_call(['gsutil', 'rb', url])
         raise
     sys.stderr.write("Make bucket...SUCCESS")    

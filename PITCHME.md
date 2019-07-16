@@ -21,13 +21,14 @@ Cloud IAM allows you to control who has access to the resources in your Google C
 
 ### IAM Policies
 
-* Buckets should use primarily IAM for access management
-* Google groups and service accounts should be used for ownership/access instead of individual owners and ACLs
+* Buckets should primarily use IAM for access management
+* Google groups and service accounts should be used for ownership/access instead of individual owners
 
 ---
 
 ### IAM Storage Access Roles
 
+* storage.legacyBucketOwner - Grants permission to view and edit objects and their metadata, including ACLs.
 * storage.admin - full control of objects and buckets. 
 * storage.objectAdmin - full control of objects, including listing, creating, viewing, and deleting objects
 * storage.objectCreator	 - allows users to create objects. Does not give permission to view, delete, or overwrite objects
@@ -79,6 +80,23 @@ A README file in the top level of the bucket provides additional notes.
 
 * what should be included?
 * what should the file name be?
+
+---
+
+# Directory Structures
+
+---
+
+### Call Set Structure
+
+* gatk4
+ * cromwell [executiuons, outputs]
+ * inputs [WDL,sample lists, workflow JSON, snps lists, etc.]
+* postvqsr
+ * QCs
+ * annotations
+ * hail_notes
+ * merged
 
 ---
 

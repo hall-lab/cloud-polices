@@ -1,5 +1,7 @@
-import subprocess, sys
+import json, subprocess, sys, tempfile
 from subprocess import CalledProcessError
+
+from hlcloud import config, policies
 
 def make_bucket(url, service_account=None, group=None, mbopts=None):
 
@@ -16,27 +18,24 @@ def make_bucket(url, service_account=None, group=None, mbopts=None):
     sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
     subprocess.check_call(cmd)
 
-    try:
-        cmd = [ 'gsutil', 'defacl', 'set', 'url-owner-full-control', url ]
-        sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
-        subprocess.check_call(cmd)
+    project = config.get_project()
+    sys.stderr.write("Project ID: {}\n".format(project))
 
-        cmd = [ 'gsutil', 'acl', 'set', 'private', url ]
-        sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
-        subprocess.check_call(cmd)
+    iam_policy = policies.bucket_policy(project=project, group=group, service_account=service_account)
 
-        cmd = [ "gsutil", "iam", "ch" ]
-        if service_account:
-            cmd += [ "serviceAccount:{}:storage.objectAdmin".format(service_account) ]
-        if group:
-            cmd += [ "group:{}:storage.objectAdmin".format(group) ]
-        sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
-        subprocess.check_call(cmd)
+    with tempfile.NamedTemporaryFile(mode='w') as f:
+        f.write(json.dumps(iam_policy))
+        f.flush()
 
-    except CalledProcessError:
-        sys.stderr.write("ERROR: Setting IAM/ACLs on bucket failed. Attempting to remove bucket.\n")
-        subprocess.check_call(['gsutil', 'rb', url])
-        raise
+        try:
+            cmd = [ "gsutil", "iam", "set", f.name, url ]
+            sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
+            subprocess.check_call(cmd)
+
+        except CalledProcessError:
+            sys.stderr.write("ERROR: Setting IAM/ACLs on bucket failed. Attempting to remove bucket.\n")
+            subprocess.check_call(['gsutil', 'rb', url])
+            raise
 
     sys.stderr.write("Make bucket...SUCCESS")
 

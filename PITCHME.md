@@ -35,6 +35,12 @@ Cloud IAM allows you to control who has access to the resources in your Google C
 
 ---
 
+### Google Groups for IAM
+
+Google groups are managed through G-Suite. They allow for granular and continuty in access by adding and removing users. Niel and Eddie can make groups, but once created, ownership can be modified.
+
+---
+
 ## Access Control Lists (ACL)
 An ACL is a mechanism you can use to define who has access to your buckets and objects, as well as what level of access they have. In Cloud Storage, you apply ACLs to individual buckets and objects.
 
@@ -46,6 +52,7 @@ Per our policy, we want to limit the use of ACLs. We will still leave one ACL on
 
 Defaults ACLs Roles:
 * OWNERS
+ * groups [add]
  * project-owners [keep]
  * project-editors [remove]
 * READER

@@ -95,4 +95,21 @@ Helper scripts will be available via docker image and github repo for making buc
 
 ---
 
+# Directory Structures
+
+---
+
+### Call Set Structure
+
+* gatk4
+ * cromwell [executiuons, outputs]
+ * inputs [WDL,sample lists, workflow JSON, snps lists, etc.]
+* postvqsr
+ * QCs
+ * annotations
+ * hail_notes
+ * merged
+
+---
+
 # FIN

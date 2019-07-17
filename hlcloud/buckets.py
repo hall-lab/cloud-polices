@@ -3,12 +3,12 @@ from subprocess import CalledProcessError
 
 from hlcloud import config, policies
 
-def make_bucket(url, service_account=None, group=None, mbopts=None):
+def make_bucket(url, service_account=None, groups=[], mbopts=None):
 
     if not url.startswith("gs://"):
         raise Exception("ERROR: Invalid google bucket URL: {}".format(url))
 
-    if service_account is None and group is None:
+    if service_account is None and len(groups) == 0:
         raise Exception('ERROR: Need to provide service account or group (or both) to make bucket!')
 
     sys.stderr.write("Make bucket: {}\n".format(url))
@@ -21,7 +21,7 @@ def make_bucket(url, service_account=None, group=None, mbopts=None):
     project = config.get_project()
     sys.stderr.write("Project ID: {}\n".format(project))
 
-    iam_policy = policies.bucket_policy(project=project, group=group, service_account=service_account)
+    iam_policy = policies.bucket_policy(project=project, groups=groups, service_account=service_account)
 
     with tempfile.NamedTemporaryFile(mode='w') as f:
         f.write(json.dumps(iam_policy))

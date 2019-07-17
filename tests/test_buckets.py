@@ -9,7 +9,7 @@ class BucketsTest(unittest.TestCase):
 
     def test1_make_bucket_fails(self):
         with self.assertRaisesRegex(Exception, "ERROR: Invalid google bucket URL: gs:/test"):
-            buckets.make_bucket(url="gs:/test", service_account="SA", group="G")
+            buckets.make_bucket(url="gs:/test", service_account="SA", groups="G")
         with self.assertRaisesRegex(Exception, "ERROR: Need to provide service account or group \(or both\) to make bucket!"):
             buckets.make_bucket(url="gs://test")
     
@@ -21,7 +21,7 @@ class BucketsTest(unittest.TestCase):
         
         test_patch1.return_value = 1
         test_patch2.return_value = "mgi\n"
-        buckets.make_bucket(url="gs://test", service_account="SA", group="G")
+        buckets.make_bucket(url="gs://test", service_account="SA", groups="G")
         expected_err = "\n".join([
             "Make bucket: gs://test",
             "Running: gsutil mb gs://test",

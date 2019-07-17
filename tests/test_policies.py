@@ -17,7 +17,8 @@ class PoliciesTest(unittest.TestCase):
         policy = policies.bucket_policy(project="mgi")
         self.assertDictEqual(policy, expected_policy)
 
-        expected_policy['bindings'][0]['members'] += [ 'group:mgi@wustl.edu', 'serviceAccount:mgi-users@wustl.edu' ]
+        expected_policy['bindings'][0]['members'] += [ 'group:mgi@wustl.edu' ]
+        expected_policy['bindings'] +=  [{ 'members': [ 'serviceAccount:mgi-users@wustl.edu' ], "role": "roles/storage.objectAdmin" }]
         policy = policies.bucket_policy(project="mgi", group="mgi@wustl.edu", service_account="mgi-users@wustl.edu")
         self.assertDictEqual(policy, expected_policy)
 

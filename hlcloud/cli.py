@@ -1,4 +1,4 @@
-import click, json, sys
+import click, json, sys, yaml
 
 from hlcloud.version import __version__
 from hlcloud import buckets
@@ -42,6 +42,17 @@ def buckets_make_cmd(url, service_account, groups, mbopts):
 buckets_cmd.add_command(buckets_make_cmd, name="make")
 
 #-- buckets_make_cmd
+
+@click.command(short_help="print bucket blank README")
+def buckets_readme_cmd():
+    """
+    Print a blank bucket README. This can then be filled out and ploaded to a bucket.
+
+    """
+    sys.stdout.write( yaml.dump( policies.bucket_readme()) )
+buckets_cmd.add_command(buckets_readme_cmd, name="readme")
+
+#-- buckets_readme_cmd
 #-- BUCKETS
 
 # POLICIES

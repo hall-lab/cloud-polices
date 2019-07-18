@@ -31,3 +31,18 @@ def bucket_policy(project, groups=None, service_account=None):
     return bucket_policy
     
 #-- bucket_policy
+
+def bucket_readme():
+    readme = {
+        "user": None,
+        "project": None,
+        "pipeline": None,
+        "description": None,
+        "groups": [],
+        "service_account": None,
+        "software_and_versions": {},
+        "used_in_paper": None,
+    }
+    return readme
+
+#-- bucket_readme

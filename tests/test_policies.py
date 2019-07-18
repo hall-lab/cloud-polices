@@ -22,6 +22,9 @@ class PoliciesTest(unittest.TestCase):
         policy = policies.bucket_policy(project="mgi", groups=["mgi@wustl.edu","mgi-users@wustl.edu"], service_account="mgi-users@wustl.edu")
         self.assertDictEqual(policy, expected_policy)
 
+    def test2_bucket_readme(self):
+        self.assertTrue(policies.bucket_readme())
+
 # -- PoliciesTest
 
 if __name__ == '__main__':

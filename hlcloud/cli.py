@@ -1,7 +1,8 @@
-import click, sys
+import click, json, sys
 
 from hlcloud.version import __version__
 from hlcloud import buckets
+from hlcloud import policies
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 @click.group(context_settings=CONTEXT_SETTINGS)
@@ -42,3 +43,29 @@ buckets_cmd.add_command(buckets_make_cmd, name="make")
 
 #-- buckets_make_cmd
 #-- BUCKETS
+
+# POLICIES
+# - buckets
+@click.group()
+def policies_cmd():
+    """
+    Show current policy configurations for cloud resources.
+    """
+    pass
+
+hlcloud_cmd.add_command(policies_cmd, name="policies")
+
+@click.command(short_help="show current bucket policy JSON")
+def policies_buckets_cmd():
+    """
+    Show current bucket policies with examples using groups and service accounts.
+
+    """
+    sys.stderr.write("Policy for just project owners, given no groups or serice account:\n")
+    sys.stderr.write( json.dumps(policies.bucket_policy(project="PROJECT"), indent=4) )
+    sys.stderr.write("\n\n---\n\nPolicy for 2 groups, including an owner group and service account:\n")
+    sys.stderr.write( json.dumps(policies.bucket_policy(project="PROJECT", groups=["OWNER-GROUP@example.com", "USER-GROUP@example.com"], service_account="WORKER@example.com"), indent=4) )
+policies_cmd.add_command(policies_buckets_cmd, name="buckets")
+
+#-- policies_buckets
+#-- POLICIES

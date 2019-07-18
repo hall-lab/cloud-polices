@@ -1,5 +1,4 @@
-import subprocess, sys, unittest
-from io import StringIO
+import subprocess, unittest
 from mock import patch
 
 from .context import hlcloud
@@ -9,16 +8,9 @@ class ConfigTest(unittest.TestCase):
 
     @patch('subprocess.check_output')
     def test1_get_project(self, test_patch):
-        err = StringIO()
-        sys.stderr = err
-        
-        test_patch.return_value = b'mgi\n'
-        config.get_project()
-        expected_err = "\n".join([
-            "Running: gcloud config get-value project",
-            ""])
-        self.assertEqual(err.getvalue(), expected_err)
-        sys.stderr = sys.__stderr__
+        test_patch.return_value = bytes('mgi\n', 'utf-8')
+        project = config.get_project()
+        self.assertEqual(project, "mgi")
 
 # -- ConfigTest
 

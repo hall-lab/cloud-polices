@@ -26,7 +26,7 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        make-bucket=hlcloud.cli:make_bucket
+        hlcloud=hlcloud.cli:hlcloud_cmd
     ''',
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],

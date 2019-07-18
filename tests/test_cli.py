@@ -5,9 +5,25 @@ from hlcloud import cli
 
 class CliTest(unittest.TestCase):
 
-    def test1_make_bucket(self):
-        out = subprocess.check_output(['make-bucket', '--help'], stderr=subprocess.STDOUT)
-        expected_help = re.compile('Usage: make\-bucket \[OPTIONS\] URL')
+    def test0_hlcloud(self):
+        expected_help = re.compile('Usage: hlcloud \[OPTIONS\] COMMAND \[ARGS\]')
+
+        out = subprocess.check_output(['hlcloud', '--help'], stderr=subprocess.STDOUT)
+        self.assertRegex(str(out), expected_help)
+
+        out = subprocess.check_output(['hlcloud', '-h'], stderr=subprocess.STDOUT)
+        self.assertRegex(str(out), expected_help)
+
+    def test1_buckets(self):
+        expected_help = re.compile('Usage: hlcloud buckets \[OPTIONS\] COMMAND \[ARGS\]')
+
+        out = subprocess.check_output(['hlcloud', 'buckets', '--help'], stderr=subprocess.STDOUT)
+        self.assertRegex(str(out), expected_help)
+
+    def test2_buckets_make(self):
+        expected_help = re.compile('Usage: hlcloud buckets make \[OPTIONS\] URL')
+
+        out = subprocess.check_output(['hlcloud', 'buckets', 'make', '--help'], stderr=subprocess.STDOUT)
         self.assertRegex(str(out), expected_help)
 
 # -- CliTest

@@ -1,4 +1,4 @@
-import subprocess, sys
+import getpass, subprocess, sys
 
 def get_project():
 
@@ -7,3 +7,8 @@ def get_project():
     return project.decode('utf-8').rstrip()
 
 #-- get_project
+
+def get_user():
+    return getpass.getuser()
+
+#-- get_user

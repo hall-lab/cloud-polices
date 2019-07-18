@@ -12,6 +12,10 @@ class ConfigTest(unittest.TestCase):
         project = config.get_project()
         self.assertEqual(project, "mgi")
 
+    def test2_get_user(self):
+        user = config.get_user()
+        self.assertTrue(user)
+
 # -- ConfigTest
 
 if __name__ == '__main__':

@@ -32,7 +32,7 @@ hlcloud_cmd.add_command(buckets_cmd, name="buckets")
 @click.option('--mbopts', '-m', type=click.STRING, help="String of options (ex location, project) to pass directly to `gsutil mb`. Otherwise, defaults will be used.")
 @click.option('--user', '-u', type=click.STRING, help="User to use in bucket labels. Default is current logged in username.")
 @click.option('--project', '-p', type=click.STRING, required=True, help="Project to use in bucket labels.")
-@click.option('--pipeline', '-pl', type=click.STRING, required=True, help="Pipeline to use in bucket labels.")
+@click.option('--pipeline', '-l', type=click.STRING, required=True, help="Pipeline to use in bucket labels.")
 def buckets_make_cmd(url, service_account, groups, mbopts, user, project, pipeline):
     """
     Make a Googleg Cloud bucket that conforms to the Hall Lab cloud policies

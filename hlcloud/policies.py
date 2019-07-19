@@ -38,9 +38,9 @@ def bucket_readme():
         "project": None,
         "pipeline": None,
         "description": None,
-        "groups": [],
+        "groups": [ "OWNER-GROUP", "OPTIONAL-USERS-GROUP", "OPTIONAL-USERS-GROUP2" ],
         "service_account": None,
-        "software_and_versions": {},
+        "software_and_versions": { "SOFTWARE1": "v0.1.0", "SOFTWARE2": "v4.0.2", },
         "used_in_paper": None,
     }
     return readme

@@ -25,20 +25,25 @@ def buckets_cmd():
 
 hlcloud_cmd.add_command(buckets_cmd, name="buckets")
 
-# buckets_make_cmd
 @click.command(short_help="make a bucket with correct policies")
 @click.argument('url', type=click.STRING)
 @click.option('--service-account', '-s', type=click.STRING, help="Service account to give access to bucket.")
 @click.option('--groups', '-g', type=click.STRING, help="Google group(s) to give access to bucket. If multiple groups given (via comma separation), the first group is the owner, the rest will be object admins.")
 @click.option('--mbopts', '-m', type=click.STRING, help="String of options (ex location, project) to pass directly to `gsutil mb`. Otherwise, defaults will be used.")
-def buckets_make_cmd(url, service_account, groups, mbopts):
+@click.option('--user', '-u', type=click.STRING, help="User to use in bucket labels. Default is current logged in username.")
+@click.option('--project', '-p', type=click.STRING, required=True, help="Project to use in bucket labels.")
+@click.option('--pipeline', '-pl', type=click.STRING, required=True, help="Pipeline to use in bucket labels.")
+def buckets_make_cmd(url, service_account, groups, mbopts, user, project, pipeline):
     """
-    Make a Google Cloud Bucket with Permissions that Conform to the Hall Lab Cloud Policies
+    Make a Googleg Cloud bucket that conforms to the Hall Lab cloud policies
 
     Need to provide a group, service account, or both.
 
     """
-    buckets.make_bucket(url=url, service_account=service_account, groups=groups.split(','), mbopts=mbopts)
+    buckets.make_bucket(
+        url=url, service_account=service_account, groups=groups.split(','), mbopts=mbopts,
+        labels={"user": user, "project": project, "pipeline": pipeline}
+    )
 buckets_cmd.add_command(buckets_make_cmd, name="make")
 
 #-- buckets_make_cmd
@@ -53,6 +58,19 @@ def buckets_readme_cmd():
 buckets_cmd.add_command(buckets_readme_cmd, name="readme")
 
 #-- buckets_readme_cmd
+
+@click.command(short_help="add or update bucket labels")
+@click.argument('url', type=click.STRING)
+@click.option('--labels', '-l', type=click.STRING, help="Google group(s) to give access to bucket. If multiple groups given (via comma separation), the first group is the owner, the rest will be object admins.")
+def buckets_update_labels_cmd(url, labels):
+    """
+    Add or update labels on a bucket
+
+    """
+    buckets.update_label(url=url, labels=labels)
+buckets_cmd.add_command(buckets_update_labels_cmd, name="update-labels")
+
+#-- buckets_update_labels_cmd
 #-- BUCKETS
 
 # POLICIES

@@ -2,14 +2,14 @@ import json, subprocess, sys, unittest
 from mock import patch
 
 from .context import hlcloud
-from hlcloud import gsutills
+from hlcloud import gsutils
 
-class GsutillsTest(unittest.TestCase):
+class GsutilsTest(unittest.TestCase):
 
     @patch('subprocess.check_output')
     def test1_ls(self, patch):
         patch.return_value = "gs://test\ngs:://test-2\n"
-        buckets_list = gsutills.ls()
+        buckets_list = gsutils.ls()
 
         expected = patch.return_value.split("\n")
         self.assertEqual(buckets_list, expected)
@@ -30,10 +30,10 @@ class GsutillsTest(unittest.TestCase):
             ],
         }
         patch.return_value = json.dumps(expected_iam)
-        iam = gsutills.bucket_iam(url="gs://test")
+        iam = gsutils.bucket_iam(url="gs://test")
         self.assertEqual(iam, expected_iam)
 
-# -- GsutillsTest
+# -- GsutilsTest
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -24,9 +24,10 @@ def make_bucket(url, service_account=None, groups=[], labels={}, mbopts=None):
     cloud_project = config.get_project()
     sys.stderr.write("Google cloud project: {}\n".format(cloud_project))
 
-    cmd = ['gsutil', 'mb', url]
+    cmd = ['gsutil', 'mb']
     if mbopts:
-        cmd += mbopts
+        cmd += mbopts.split(' ')
+    cmd += [url]
     sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
     subprocess.check_call(cmd)
 

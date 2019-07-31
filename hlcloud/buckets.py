@@ -3,7 +3,7 @@ from subprocess import CalledProcessError
 
 from hlcloud import config, policies
 
-def make_bucket(url, service_account=None, groups=[], labels={}, mbopts=None):
+def make_bucket(url, service_account=None, groups=[], collaborators=[], labels={}, mbopts=None):
     sys.stderr.write("Make bucket: {}\n".format(url))
 
     if not url.startswith("gs://"):
@@ -31,7 +31,7 @@ def make_bucket(url, service_account=None, groups=[], labels={}, mbopts=None):
     sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
     subprocess.check_call(cmd)
 
-    iam_policy = policies.bucket_policy(project=cloud_project, groups=groups, service_account=service_account)
+    iam_policy = policies.bucket_policy(project=cloud_project, groups=groups, service_account=service_account, collaborators=collaborators)
 
     with tempfile.NamedTemporaryFile(mode='w') as f:
         f.write(json.dumps(iam_policy))

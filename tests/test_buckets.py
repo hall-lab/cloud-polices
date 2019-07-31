@@ -38,7 +38,7 @@ class BucketsTest(unittest.TestCase):
         patch_check_call.return_value = 1
         patch_get_project.return_value = "mgi-cloud"
         patch_get_user.return_value = "mgi-user"
-        buckets.make_bucket(url="gs://test", service_account="SA", groups="G", labels={"project": "mgi-project", "pipeline": "mgi-pipeline"})
+        buckets.make_bucket(url="gs://test", service_account="SA", groups="G1", collaborators=["C1@abc.edu", "C2@abc.edu"], labels={"project": "mgi-project", "pipeline": "mgi-pipeline"})
         expected_err = "\n".join([
             "Make bucket: gs://test",
             "User: mgi-user",

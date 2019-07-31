@@ -40,8 +40,10 @@ def buckets_make_cmd(url, service_account, groups, mbopts, user, project, pipeli
     Need to provide a group, service account, or both.
 
     """
+    if groups:
+        groups = groups.split(',')
     buckets.make_bucket(
-        url=url, service_account=service_account, groups=groups.split(','), mbopts=mbopts,
+        url=url, service_account=service_account, groups=groups, mbopts=mbopts,
         labels={"user": user, "project": project, "pipeline": pipeline}
     )
 buckets_cmd.add_command(buckets_make_cmd, name="make")

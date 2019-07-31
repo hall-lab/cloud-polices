@@ -9,7 +9,7 @@ def make_bucket(url, service_account=None, groups=[], labels={}, mbopts=None):
     if not url.startswith("gs://"):
         raise Exception("ERROR: Invalid google bucket URL: {}".format(url))
 
-    if service_account is None and len(groups) == 0:
+    if service_account is None and ( groups == None or len(groups) == 0 ):
         raise Exception('ERROR: Need to provide service account or group (or both) to make bucket!')
 
     if not 'user' in labels or labels['user'] is None:

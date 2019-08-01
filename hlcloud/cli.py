@@ -34,7 +34,7 @@ hlcloud_cmd.add_command(buckets_cmd, name="buckets")
 @click.option('--user', '-u', type=click.STRING, help="User to use in bucket labels. Default is current logged in username.")
 @click.option('--project', '-p', type=click.STRING, required=True, help="Project to use in bucket labels.")
 @click.option('--pipeline', '-l', type=click.STRING, required=True, help="Pipeline to use in bucket labels.")
-def buckets_make_cmd(url, service_account, groups, mbopts, user, project, pipeline):
+def buckets_make_cmd(url, service_account, groups, collaborators, mbopts, user, project, pipeline):
     """
     Make a Google Cloud bucket that conforms to the Hall Lab cloud policies
 
@@ -47,7 +47,7 @@ def buckets_make_cmd(url, service_account, groups, mbopts, user, project, pipeli
         collaborators = collaborators.split(',')
     buckets.make_bucket(
         url=url, service_account=service_account, groups=groups, collaborators=collaborators, mbopts=mbopts,
-        labels={"user": owner, "project": project, "pipeline": pipeline}
+        labels={"user": user, "project": project, "pipeline": pipeline}
     )
 buckets_cmd.add_command(buckets_make_cmd, name="make")
 

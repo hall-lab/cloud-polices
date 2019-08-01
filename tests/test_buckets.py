@@ -41,12 +41,14 @@ class BucketsTest(unittest.TestCase):
         buckets.make_bucket(url="gs://test", service_account="SA", groups="G1", collaborators=["C1@abc.edu", "C2@abc.edu"], labels={"project": "mgi-project", "pipeline": "mgi-pipeline"})
         expected_err = "\n".join([
             "Make bucket: gs://test",
-            "User: mgi-user",
-            "Project: mgi-project",
-            "Pipeline: mgi-pipeline",
+            "Labels:",
+            " User: mgi-user",
+            " Project: mgi-project",
+            " Pipeline: mgi-pipeline",
             "Google cloud project: mgi-cloud",
             "Running: gsutil mb gs://test",
             "Running: gsutil iam set /tmp/[\w\d]+ gs://test",
+            "Running: gsutil defacl set bucket-owner-full-control gs://test",
             "Running: gsutil label ch -l user:mgi-user -l project:mgi-project -l pipeline:mgi-pipeline gs://test",
             "Update bucket labels\.\.\.SUCCESS",
             "Make bucket\.\.\.SUCCESS"])

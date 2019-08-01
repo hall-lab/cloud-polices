@@ -14,12 +14,12 @@ def make_bucket(url, service_account=None, groups=[], collaborators=[], labels={
 
     if not 'user' in labels or labels['user'] is None:
         labels['user'] = config.get_user()
-    sys.stderr.write("User: {}\n".format(labels['user']))
+    sys.stderr.write("Labels:\n User: {}\n".format(labels['user']))
 
     for req in ["project", "pipeline"]:
         if not req in labels or labels[req] is None:
             raise Exception("ERROR: Required label not found: {}".format(req))
-        sys.stderr.write("{}: {}\n".format(req.capitalize(), labels[req]))
+        sys.stderr.write(" {}: {}\n".format(req.capitalize(), labels[req]))
 
     cloud_project = config.get_project()
     sys.stderr.write("Google cloud project: {}\n".format(cloud_project))
@@ -39,6 +39,10 @@ def make_bucket(url, service_account=None, groups=[], collaborators=[], labels={
 
         try:
             cmd = [ "gsutil", "iam", "set", f.name, url ]
+            sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
+            subprocess.check_call(cmd)
+
+            cmd = [ "gsutil", "defacl", "set", "bucket-owner-full-control", url ]
             sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
             subprocess.check_call(cmd)
 

@@ -32,6 +32,12 @@ class CliTest(unittest.TestCase):
         out = subprocess.check_output(['hlcloud', 'buckets', 'readme', '--help'], stderr=subprocess.STDOUT)
         self.assertRegex(str(out), expected_help)
 
+    def test14_buckets_update_labels(self):
+        expected_help = re.compile('Usage: hlcloud buckets update-labels \[OPTIONS\] URL')
+
+        out = subprocess.check_output(['hlcloud', 'buckets', 'update-labels', '--help'], stderr=subprocess.STDOUT)
+        self.assertRegex(str(out), expected_help)
+
     def test2_polices(self):
         expected_help = re.compile('Usage: hlcloud policies \[OPTIONS\] COMMAND \[ARGS\]')
 

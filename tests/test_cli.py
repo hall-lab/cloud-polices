@@ -14,19 +14,19 @@ class CliTest(unittest.TestCase):
         out = subprocess.check_output(['hlcloud', '-h'], stderr=subprocess.STDOUT)
         self.assertRegex(str(out), expected_help)
 
-    def test1_buckets(self):
+    def test11_buckets(self):
         expected_help = re.compile('Usage: hlcloud buckets \[OPTIONS\] COMMAND \[ARGS\]')
 
         out = subprocess.check_output(['hlcloud', 'buckets', '--help'], stderr=subprocess.STDOUT)
         self.assertRegex(str(out), expected_help)
 
-    def test1_buckets_make(self):
+    def test12_buckets_make(self):
         expected_help = re.compile('Usage: hlcloud buckets make \[OPTIONS\] URL')
 
         out = subprocess.check_output(['hlcloud', 'buckets', 'make', '--help'], stderr=subprocess.STDOUT)
         self.assertRegex(str(out), expected_help)
 
-    def test1_bucket_readme(self):
+    def test13_bucket_readme(self):
         expected_help = re.compile('Usage: hlcloud buckets readme \[OPTIONS\]')
 
         out = subprocess.check_output(['hlcloud', 'buckets', 'readme', '--help'], stderr=subprocess.STDOUT)
@@ -38,7 +38,7 @@ class CliTest(unittest.TestCase):
         out = subprocess.check_output(['hlcloud', 'policies', '--help'], stderr=subprocess.STDOUT)
         self.assertRegex(str(out), expected_help)
 
-    def test2_policies_buckets(self):
+    def test21_policies_buckets(self):
         expected_help = re.compile('Usage: hlcloud policies buckets \[OPTIONS\]')
 
         out = subprocess.check_output(['hlcloud', 'policies', 'buckets', '--help'], stderr=subprocess.STDOUT)

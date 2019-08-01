@@ -53,6 +53,17 @@ buckets_cmd.add_command(buckets_make_cmd, name="make")
 
 #-- buckets_make_cmd
 
+@click.command(short_help="print bucket blank README")
+def buckets_readme_cmd():
+    """
+    Print a blank bucket README tempate. This can then be filled out and ploaded to a bucket.
+
+    """
+    sys.stdout.write( yaml.dump( policies.bucket_readme()) )
+buckets_cmd.add_command(buckets_readme_cmd, name="readme")
+
+#-- buckets_readme_cmd
+
 @click.command(short_help="add or update bucket labels")
 @click.argument('url', type=click.STRING)
 @click.option('--labels', '-l', type=click.STRING, help="Google group(s) to give access to bucket. If multiple groups given (via comma separation), the first group is the owner, the rest will be object admins.")

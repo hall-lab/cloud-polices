@@ -1,5 +1,0 @@
-google-cloud-logs/
-gsutil_wrappers/
-*.pyc
-*.eggs
-*.egg-info

@@ -11,6 +11,15 @@ with open('LICENSE') as f:
 with open('hlcloud/version.py') as f:
     exec(f.read())
 
+install_requires=[
+    "click==7.0",
+    "pyyaml==5.1",
+]
+test_requires = [
+    "mock",
+    "pytest"
+]
+
 setup(
     name='hlcloud',
     version=__version__,
@@ -20,16 +29,14 @@ setup(
     author_email='ebelter@wustl.edu',
     license=license,
     url='https://github.com/hall-lab/cloud-policies.git',
-    install_requires=[
-        'click==7.0',
-        'pyyaml==5.1',
-    ],
+    install_requires=install_requires,
+    test_requires=test_requires,
     entry_points='''
         [console_scripts]
         hlcloud=hlcloud.cli:hlcloud_cmd
     ''',
     setup_requires=["pytest-runner"],
-    tests_require=["pytest"],
+    tests_require=test_requires,
     packages=find_packages(exclude=('tests', 'docs')),
     include_package_data=True,
 )

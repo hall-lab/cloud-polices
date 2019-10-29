@@ -27,17 +27,19 @@ class BucketsTest(unittest.TestCase):
             buckets.make_bucket(url="gs://test", service_account="SA", groups="G", labels={"project": "mgi-project", "pipeline": None})
 
         sys.stderr = sys.__stderr__
-    
-    @patch('hlcloud.config.get_project')
-    @patch('hlcloud.config.get_user')
+
     @patch('subprocess.check_call')
-    def test2_make_bucket_success(self, patch_check_call, patch_get_user, patch_get_project):
+    @patch('getpass.getuser')
+    @patch('google.auth.default')
+    def test1_make_bucket(self, auth_patch, getuser_patch, checkcall_patch):
+        credentials = "streetcred"
+        project = "mgi-cloud"
+        auth_patch.return_value = (credentials, project)
+        getuser_patch.return_value = "mgi-user"
+        checkcall_patch.return_value = 1
+
         err = StringIO()
         sys.stderr = err
-        
-        patch_check_call.return_value = 1
-        patch_get_project.return_value = "mgi-cloud"
-        patch_get_user.return_value = "mgi-user"
         buckets.make_bucket(url="gs://test", service_account="SA", groups="G1", collaborators=["C1@abc.edu", "C2@abc.edu"], labels={"project": "mgi-project", "pipeline": "mgi-pipeline"})
         expected_err = "\n".join([
             "Make bucket: gs://test",

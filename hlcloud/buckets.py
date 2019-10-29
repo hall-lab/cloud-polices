@@ -1,9 +1,11 @@
 import json, subprocess, sys, tempfile
 from subprocess import CalledProcessError
 
-from hlcloud import config, policies
+from hlcloud import policies
+from hlcloud.config import HLCConfig
 
 def make_bucket(url, service_account=None, groups=[], collaborators=[], labels={}, mbopts=None):
+    config = HLCConfig()
     sys.stderr.write("Make bucket: {}\n".format(url))
 
     if not url.startswith("gs://"):
@@ -13,7 +15,7 @@ def make_bucket(url, service_account=None, groups=[], collaborators=[], labels={
         raise Exception('ERROR: Need to provide service account or group (or both) to make bucket!')
 
     if not 'user' in labels or labels['user'] is None:
-        labels['user'] = config.get_user()
+        labels['user'] = config.user
     sys.stderr.write("Labels:\n User: {}\n".format(labels['user']))
 
     for req in ["project", "pipeline"]:
@@ -21,7 +23,7 @@ def make_bucket(url, service_account=None, groups=[], collaborators=[], labels={
             raise Exception("ERROR: Required label not found: {}".format(req))
         sys.stderr.write(" {}: {}\n".format(req.capitalize(), labels[req]))
 
-    cloud_project = config.get_project()
+    cloud_project = config.project
     sys.stderr.write("Google cloud project: {}\n".format(cloud_project))
 
     cmd = ['gsutil', 'mb']

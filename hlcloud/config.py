@@ -13,4 +13,10 @@ class HLCConfig(object):
 
     # -- __new__
 
+    @staticmethod
+    def get_user():
+        return getpass.getuser()
+
+    #-- get_project
+
 # -- HLCConfig

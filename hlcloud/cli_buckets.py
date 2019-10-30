@@ -1,4 +1,5 @@
-import click, yaml, sys
+import click, google, yaml, sys
+import hlcloud.config
 
 # BUCKET CLI
 @click.group()
@@ -25,17 +26,39 @@ buckets_cli.add_command(buckets_readme_cmd, name="readme")
 # UPDATE LABELS
 @click.command(short_help="add or update bucket labels")
 @click.argument('url', type=click.STRING)
-@click.option('--labels', '-l', type=click.STRING, help="Google group(s) to give access to bucket. If multiple groups given (via comma separation), the first group is the owner, the rest will be object admins.")
-def buckets_update_labels_cmd(url, labels):
+@click.option('--user', '-u', type=click.STRING, required=False, help="User to use in bucket labels. Default is current logged in username.")
+@click.option('--project', '-p', type=click.STRING, required=True, help="Project to use in bucket labels.")
+@click.option('--pipeline', '-l', type=click.STRING, required=True, help="Pipeline to use in bucket labels.")
+def buckets_update_labels_cmd(url, user, project, pipeline):
     """
     Add or update labels on a bucket
 
     """
-    cmd = ['gsutil', 'label', 'ch']
-    for l in labels:
-        cmd += ['-l', l]
-    cmd += [url]
-    sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
-    subprocess.check_call(cmd)
+    sys.stderr.write("Update bucket labels...\n")
+    if not user:
+        user = hlcloud.config.HLCConfig.get_user()
+
+    storage = google.cloud.storage.Client()
+    bucket = storage.get_bucket(url)
+    if not bucket:
+        raise Exception("No bucket for {}".format(url))
+
+    labels = bucket.labels
+    if labels is None:
+        labels = dict()
+
+    new_labels = {
+        "user": user,
+        "project": project,
+        "pipeline": pipeline,
+    }
+    if new_labels == labels:
+       sys.stderr("New and current bucket labels are the same, not updating.\n")
+       return
+
+    labels.update(new_labels)
+    bucket.labels = labels
+    sys.stderr.write("New labels:\n{}".format(yaml.dump(bucket.labels)))
+    bucket.update()
     sys.stderr.write("Update bucket labels...SUCCESS\n")
 buckets_cli.add_command(buckets_update_labels_cmd, name="update-labels")

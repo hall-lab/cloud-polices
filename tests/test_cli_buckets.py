@@ -62,7 +62,7 @@ class CliBucketsTest(unittest.TestCase):
         self.assertEqual(bucket.labels, labels)
         bucket.update.assert_called
 
-# -- CliTest
+# -- CliBucketsTest
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

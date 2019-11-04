@@ -9,6 +9,10 @@ def buckets_cli():
     """
     pass
 
+# LIST
+from hlcloud.cli_buckets_list import buckets_list_cmd
+buckets_cli.add_command(buckets_list_cmd, name="list")
+
 # MAKE
 from hlcloud.cli_buckets_make import buckets_make_cmd
 buckets_cli.add_command(buckets_make_cmd, name="make")

@@ -1,14 +1,22 @@
-import getpass, subprocess, sys
+import getpass, google.auth
+from google.cloud import storage
 
-def get_project():
+class HLCConfig(object):
+    __instance = None
+    def __new__(cls):
+        if HLCConfig.__instance is None:
+            HLCConfig.__instance = object.__new__(cls)
+            tok = google.auth.default()
+            HLCConfig.__instance.credentials, HLCConfig.__instance.project = google.auth.default()
+            HLCConfig.__instance.user = getpass.getuser()
+        return HLCConfig.__instance
 
-    cmd = ['gcloud', 'config', 'get-value', 'project']
-    project = subprocess.check_output(cmd)
-    return project.decode('utf-8').rstrip()
+    # -- __new__
 
-#-- get_project
+    @staticmethod
+    def get_user():
+        return getpass.getuser()
 
-def get_user():
-    return getpass.getuser()
+    #-- get_project
 
-#-- get_user
+# -- HLCConfig

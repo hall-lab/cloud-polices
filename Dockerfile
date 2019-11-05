@@ -58,10 +58,19 @@ WORKDIR /home/cloudy
 COPY resources/homedir ./
 RUN chown -R cloudy /home/cloudy/ && \
   chgrp -R cloudy /home/cloudy/ && \
-  find ./ -type d -exec chmod 755 {} \; && \
-  find ./ -type f -exec chmod 644 {} \;
+  find ./ -type d -exec chmod 777 {} \; && \
+  find ./ -type f -exec chmod 666 {} \;
 
-# ENVs and Default Command
+# Environment
+WORKDIR /etc/profile.d/
+COPY resources/etc/hlcloud.sh ./
+ENV HOME=/home/cloudy \
+  TZ='America/Chicago' \
+  LSF_SERVERDIR=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc \
+  LSF_LIBDIR=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/lib \
+  LSF_BINDIR=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin \
+  LSF_ENVDIR=/opt/lsf9/conf \
+  PATH="/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:${PATH}"
 USER cloudy
-ENV HOME /home/cloudy
+WORKDIR /home/cloudy
 CMD [ /bin/bash ]

@@ -1,4 +1,4 @@
-import json, subprocess, sys, tempfile
+import getpass, json, subprocess, sys, tempfile, yaml
 from subprocess import CalledProcessError
 
 from hlcloud import policies
@@ -22,45 +22,31 @@ def buckets_make_cmd(url, service_account, groups, collaborators, mbopts, user, 
 
     Need to provide a group, service account, or both.
     """
-    config = HLCConfig()
     sys.stderr.write("Make bucket: {}\n".format(url))
-
-    if groups:
-        groups = groups.split(',')
-    if collaborators:
-        collaborators = collaborators.split(',')
-    buckets.make_bucket(
-        url=url, service_account=service_account, groups=groups, collaborators=collaborators, mbopts=mbopts,
-        labels={"user": user, "project": project, "pipeline": pipeline}
-    )
 
     if not url.startswith("gs://"):
         raise Exception("ERROR: Invalid google bucket URL: {}".format(url))
 
+    if groups:
+        groups = groups.split(',')
+
     if service_account is None and ( groups == None or len(groups) == 0 ):
         raise Exception('ERROR: Need to provide service account or group (or both) to make bucket!')
 
-    if not 'user' in labels or labels['user'] is None:
-        labels['user'] = config.user
-    sys.stderr.write("Labels:\n User: {}\n".format(labels['user']))
+    if collaborators:
+        collaborators = collaborators.split(',')
 
-    for req in ["project", "pipeline"]:
-        if not req in labels or labels[req] is None:
-            raise Exception("ERROR: Required label not found: {}".format(req))
-        sys.stderr.write(" {}: {}\n".format(req.capitalize(), labels[req]))
+    config = HLCConfig()
 
-    cloud_project = config.project
-    sys.stderr.write("Google cloud project: {}\n".format(cloud_project))
-
-    cmd = ['gsutil', 'mb']
+    cmd = ["gsutil", "mb"]
     if mbopts:
         cmd += mbopts.split(' ')
     cmd += [url]
     sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
     subprocess.check_call(cmd)
 
+    cloud_project = config.project
     iam_policy = policies.bucket_policy(project=cloud_project, groups=groups, service_account=service_account, collaborators=collaborators)
-
     with tempfile.NamedTemporaryFile(mode='w') as f:
         f.write(json.dumps(iam_policy))
         f.flush()
@@ -79,8 +65,18 @@ def buckets_make_cmd(url, service_account, groups, collaborators, mbopts, user, 
             subprocess.check_call(['gsutil', 'rb', url])
             raise
 
+    labels = {
+        "user": user,
+        "project": project,
+        "pipeline": pipeline,
+    }
+    if labels["user"] is None:
+        labels["user"] = config.user
+
     try:
-        update_labels(url=url, labels=["user:{}".format(labels['user']), "project:{}".format(labels['project']), "pipeline:{}".format(labels['pipeline'])])
+        cmd = ["gsutil", "label", "ch", "-l", "user:{}".format(labels["user"]), "-l", "project:{}".format(project), "-l", "pipeline:{}".format(pipeline), url]
+        sys.stderr.write("Running: {}\n".format(" ".join(cmd)))
+        subprocess.check_call(cmd)
 
     except:
         sys.stderr.write("ERROR: Failed to update labels on bucket. Attempting to remove bucket.\n")
@@ -88,4 +84,3 @@ def buckets_make_cmd(url, service_account, groups, collaborators, mbopts, user, 
         raise
 
     sys.stderr.write("Make bucket...SUCCESS\n")
-#-- buckets_make_cmd

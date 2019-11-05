@@ -13,13 +13,7 @@ class CliBucketsTest(unittest.TestCase):
         out = subprocess.check_output(['hlcloud', 'buckets', '--help'], stderr=subprocess.STDOUT)
         self.assertRegex(str(out), expected_help)
 
-    def test1_buckets_make(self):
-        expected_help = re.compile('Usage: hlcloud buckets make \[OPTIONS\] URL')
-
-        out = subprocess.check_output(['hlcloud', 'buckets', 'make', '--help'], stderr=subprocess.STDOUT)
-        self.assertRegex(str(out), expected_help)
-
-    def test2_bucket_readme(self):
+    def test1_bucket_readme(self):
         expected_help = re.compile('Usage: hlcloud buckets readme \[OPTIONS\]')
 
         out = subprocess.check_output(['hlcloud', 'buckets', 'readme', '--help'], stderr=subprocess.STDOUT)

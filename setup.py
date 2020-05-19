@@ -39,6 +39,7 @@ setup(
     ''',
     setup_requires=["pytest-runner"],
     tests_require=test_requires,
-    packages=find_packages(exclude=('tests', 'docs')),
+    packages=find_packages(include=['hlcloud'], exclude=('tests', 'docs')),
+    package_data={"hlcloud": ["resources/*"]},
     include_package_data=True,
 )

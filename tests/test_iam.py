@@ -1,9 +1,22 @@
-import json, subprocess, unittest
+import io, json, subprocess, sys, unittest
 from mock import patch
 
 import hlcloud.iam
 
 class IamTest(unittest.TestCase):
+
+    def test_groups(self):
+        self.assertEqual(len(hlcloud.iam.groups()), 6)
+
+        err = io.StringIO()
+        sys.stderr = err
+        hlcloud.iam.__file__ = "blah"
+        iam_fn = hlcloud.iam.__file__
+        self.assertEqual(len(hlcloud.iam.groups()), 0)
+        self.assertRegex(err.getvalue(), "No groups file")
+
+        hlcloud.iam.__file__ = iam_fn
+        sys.stderr = sys.__stderr__
 
     @patch('subprocess.check_output')
     def test_service_accounts(self, check_output_p):

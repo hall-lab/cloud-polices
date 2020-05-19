@@ -1,6 +1,6 @@
 import subprocess, sys
 
-def bucket_policy(project, groups=None, service_account=None, collaborators=None):
+def bucket_policy(project, groups=None, service_accounts=None, collaborators=None):
 
     bucket_policy = {
         "bindings": [
@@ -23,8 +23,9 @@ def bucket_policy(project, groups=None, service_account=None, collaborators=None
         for c in collaborators:
             object_admin_members += [ "user:{}".format(c) ]
 
-    if service_account:
-        object_admin_members += [ "serviceAccount:{}".format(service_account) ]
+    if service_accounts:
+        for sa in service_accounts:
+            object_admin_members += [ "serviceAccount:{}".format(sa) ]
 
     if object_admin_members:
         bucket_policy['bindings'] += [{

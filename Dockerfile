@@ -36,18 +36,11 @@ RUN sudo apt-get update && \
   google-cloud-sdk-datalab \
   google-cloud-sdk-app-engine-java
 
-# CRC
-RUN DEBIAN_FRONTEND=noninteractive apt-get install gcc python-dev python-setuptools && \
-  apt-get clean && \
-  easy_install -U pip && \
-  pip uninstall --yes crcmod && \
-  pip install -U crcmod
-
 # HL CLOUD
 WORKDIR /tmp/hl-cloud/
 COPY setup.py README.cli LICENSE hlcloud/ ./
 COPY hlcloud/ hlcloud/
-RUN pip install ./
+RUN pip3 install ./
 WORKDIR /tmp/
 RUN rm -rf hl-cloud/
 

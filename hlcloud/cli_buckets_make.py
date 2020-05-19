@@ -9,18 +9,18 @@ import click
 # MAKE
 @click.command(short_help="make a bucket with correct permissions and policies")
 @click.argument('url', type=click.STRING)
-@click.option('--service-account', '-s', type=click.STRING, help="Service account to give access to bucket.")
+@click.option('--service-accounts', '-s', type=click.STRING, help="Comma separated list of service accounts to give access to the bucket.")
 @click.option('--groups', '-g', type=click.STRING, help="Google group(s) to give access to bucket. If multiple groups given (via comma separation), the first group is the owner, the rest will be object admins.")
 @click.option('--collaborators', '-c', type=click.STRING, help="Collaborator email addresses to give ADMIN OBJECT access to bucket. Give multiple email addresses via comma separation.")
 @click.option('--mbopts', '-m', type=click.STRING, help="String of options (ex location, project) to pass directly to `gsutil mb`. Otherwise, defaults will be used.")
 @click.option('--user', '-u', type=click.STRING, help="User to use in bucket labels. Default is current logged in username.")
 @click.option('--project', '-p', type=click.STRING, required=True, help="Project to use in bucket labels.")
 @click.option('--pipeline', '-l', type=click.STRING, required=True, help="Pipeline to use in bucket labels.")
-def buckets_make_cmd(url, service_account, groups, collaborators, mbopts, user, project, pipeline):
+def buckets_make_cmd(url, service_accounts, groups, collaborators, mbopts, user, project, pipeline):
     """
     Make a Google Cloud bucket that conforms to the Hall Lab cloud policies
 
-    Need to provide a group, service account, or both.
+    Need to provide a group, service account, or both. To see project service accounts and groups: `hlcloud iam list`
     """
     sys.stderr.write("Make bucket: {}\n".format(url))
 
@@ -30,7 +30,10 @@ def buckets_make_cmd(url, service_account, groups, collaborators, mbopts, user, 
     if groups:
         groups = groups.split(',')
 
-    if service_account is None and ( groups == None or len(groups) == 0 ):
+    if service_accounts:
+        service_accounts = service_accounts.split(',')
+
+    if ( service_accounts is None or len(service_accounts) == 0 ) and ( groups == None or len(groups) == 0 ):
         raise Exception('ERROR: Need to provide service account or group (or both) to make bucket!')
 
     if collaborators:
@@ -46,7 +49,7 @@ def buckets_make_cmd(url, service_account, groups, collaborators, mbopts, user, 
     subprocess.check_call(cmd)
 
     cloud_project = config.project
-    iam_policy = policies.bucket_policy(project=cloud_project, groups=groups, service_account=service_account, collaborators=collaborators)
+    iam_policy = policies.bucket_policy(project=cloud_project, groups=groups, service_accounts=service_accounts, collaborators=collaborators)
     with tempfile.NamedTemporaryFile(mode='w') as f:
         f.write(json.dumps(iam_policy))
         f.flush()

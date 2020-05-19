@@ -18,7 +18,7 @@ class CliBucketsMakeTest(unittest.TestCase):
         checkcall_patch.return_value = 1
 
         runner = CliRunner()
-        result = runner.invoke(cli_buckets_make.buckets_make_cmd, ["gs://test", "--service-account", "SA", "--groups", "G1", "--collaborators", "C1@abc.edu,C2@abc.edu", "-p", "mgi-project", "-l", "mgi-pipeline"])
+        result = runner.invoke(cli_buckets_make.buckets_make_cmd, ["gs://test", "--service-accounts", "SA", "--groups", "G1", "--collaborators", "C1@abc.edu,C2@abc.edu", "-p", "mgi-project", "-l", "mgi-pipeline"])
         if result.exception:
             print("{}".format(result.exception))
         self.assertEqual(result.exit_code, 0)

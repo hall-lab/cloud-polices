@@ -17,6 +17,10 @@ def hlcloud_cmd():
 from hlcloud.cli_buckets import buckets_cli;
 hlcloud_cmd.add_command(buckets_cli, name="buckets")
 
+# IAM
+from hlcloud.iam_cli import iam_cli;
+hlcloud_cmd.add_command(iam_cli, name="iam")
+
 # POLICIES
 from hlcloud.cli_policies import policies_cli;
 hlcloud_cmd.add_command(policies_cli, name="policies")

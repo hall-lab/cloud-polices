@@ -61,15 +61,16 @@ Defaults ACLs Roles:
 
 ---
 
-# Labels
+# Additional Items for Buckets
 
-Labels will be used to track ownership, and for calculating costs of projects and pipelines.
+* labels
+* README
 
 ---
 
-### Required Labels
+## Labels
 
-These labels are required, but others may be added.
+Labels are used to track ownership, and for calculating costs of projects and pipelines.
 
 * person - the user name of the primary contact for the bucket
 * project - the general project that the bucket is being used
@@ -77,56 +78,15 @@ These labels are required, but others may be added.
 
 ---
 
-# README
+## README
 
-A README file in the top level of the bucket provides additional notes.
-
----
-
-### README Spec
-
-* what should be included?
-* what should the file name be?
+A README file should be included in the top level of the bucket to provide additional detail about the purpose of the bucket.
 
 ---
 
-# Directory Structures
+# CLI
 
----
-
-### Call Set Structure
-
-* gatk4
- * cromwell [executiuons, outputs]
- * inputs [WDL,sample lists, workflow JSON, snps lists, etc.]
-* postvqsr
- * QCs
- * annotations
- * hail_notes
- * merged
-
----
-
-# Scripts
-
-Helper scripts will be available via docker image and github repo for making buckets, adding labels, and auditing.
-
----
-
-# Directory Structures
-
----
-
-### Call Set Structure
-
-* gatk4
- * cromwell [executiuons, outputs]
- * inputs [WDL,sample lists, workflow JSON, snps lists, etc.]
-* postvqsr
- * QCs
- * annotations
- * hail_notes
- * merged
+Crearte and modify buckets using these tools  available via the hall-lab/hlcloud:latest docker image or the GCP VM.
 
 ---
 

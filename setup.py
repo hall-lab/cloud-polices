@@ -14,7 +14,7 @@ with open('hlcloud/version.py') as f:
 install_requires=[
     "click==7.0",
     "google-cloud-storage",
-    "pyyaml==5.1",
+    "pyyaml==5.4",
     "tabulate",
 ]
 test_requires = [
